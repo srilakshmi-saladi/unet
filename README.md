@@ -1,29 +1,31 @@
-👁️ Diabetic Retinopathy Detection: Classification & Segmentation
-This repository contains a deep learning pipeline for the automated analysis of retinal fundus images. The project is divided into two main tasks: Severity Classification using EfficientNet-B3 and Lesion Segmentation using a U-Net architecture.
+👁️ Diabetic Retinopathy: Classification & Lesion Detection
+This repository features a dual-stage deep learning pipeline for analyzing retinal fundus images. It combines high-accuracy Classification to grade disease severity and precise Semantic Segmentation (U-Net) for automated lesion detection.
 🚀 Project Overview
-Diabetic Retinopathy (DR) is a leading cause of vision loss. This project aims to assist clinicians by:
-Classifying the severity of DR (Grades 0-4) using state-of-the-art CNNs.
-Segmenting critical pathological features (like microaneurysms and hemorrhages) to provide explainable AI results.
+The goal of this project is to provide an end-to-end tool for Diabetic Retinopathy (DR) screening:
+Severity Classification: Categorizing retinal images into stages (e.g., No DR, Mild, Moderate, Severe, Proliferative).
+Lesion Detection: Identifying and masking specific pathological features like microaneurysms, hemorrhages, and exudates.
 🧠 Model Architectures
-1. Severity Classification (EfficientNet-B3)
+1. Severity Classification: EfficientNet-B3
 For the classification task, I implemented EfficientNet-B3.
-Compound Scaling: Unlike traditional models, EfficientNet scales width, depth, and resolution uniformly, leading to better accuracy with fewer parameters.
-Transfer Learning: The model was initialized with ImageNet weights and fine-tuned on the eye dataset, allowing for high performance even with limited medical data.
-Performance: EfficientNet-B3 provides a perfect balance between computational efficiency and high precision for detecting subtle retinal changes.
-2. Lesion Segmentation (U-Net)
-For precise pixel-level detection, I utilized the U-Net architecture:
-Encoder-Decoder Structure: The "U" shape allows the model to capture global context (what is in the image) and local features (where the lesions are).
-Skip Connections: These bridge the gap between the encoder and decoder, preserving fine spatial details that are often lost in deep networks.
-Output: Generates binary masks that highlight exactly where abnormalities exist in the retina.
-💻 Technical Implementation
-Framework: TensorFlow / Keras (or PyTorch)
-Environment: Developed and tested on Google Colab to utilize Tesla T4/P100 GPUs.
-Dataset: Retinal Fundus Images (pre-processed with CLAHE and resizing for optimal feature extraction).
+Why EfficientNet? It uses "Compound Scaling" to balance network depth, width, and resolution. This makes it more accurate and computationally efficient than older models like ResNet or VGG.
+Transfer Learning: I utilized pre-trained ImageNet weights and fine-tuned the model on the eye dataset to achieve high sensitivity for subtle retinal changes.
+Input Resolution: Optimized for 
+
+ pixel inputs to capture fine-grained vascular details.
+2. Lesion Detection: U-Net
+For the detection of specific lesions, I used the U-Net architecture to perform pixel-level segmentation.
+Symmetric Design: The contracting path (encoder) captures context, while the expanding path (decoder) enables precise localization of tiny lesions.
+Skip Connections: These allow the model to retain high-resolution spatial information, which is critical for detecting very small microaneurysms that might otherwise be lost during downsampling.
+Output: The model generates a binary mask where white pixels represent detected lesions.
+💻 Implementation Details
+Development Environment: Developed entirely in Google Colab to leverage GPU acceleration.
+Preprocessing: Images were preprocessed using CLAHE (Contrast Limited Adaptive Histogram Equalization) to enhance the visibility of blood vessels and lesions.
+Framework: TensorFlow/Keras (or PyTorch).
 📂 Repository Structure
-DR_Classification.ipynb: Notebook for training and testing the EfficientNet-B3 classifier.
-UNet_Testing.ipynb: Notebook for the U-Net segmentation pipeline and mask visualization.
-README.md: Project documentation.
-📊 Results
-The models were evaluated based on:
-Classification: Accuracy, F1-Score, and Quadratic Weighted Kappa.
+DR_Classification.ipynb: Severity grading using EfficientNet-B3.
+UNet_Lesion_Detection.ipynb: Lesion segmentation and mask generation.
+README.md: Project documentation and architecture overview.
+📊 Evaluation Metrics
+To ensure clinical relevance, the models were evaluated using:
+Classification: Accuracy, Sensitivity, and Quadratic Weighted Kappa.
 Segmentation: Dice Coefficient and Intersection over Union (IoU).
